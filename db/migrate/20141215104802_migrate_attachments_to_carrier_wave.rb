@@ -80,7 +80,7 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
       old_file = rolled_back_file_name attachment
 
       unless File.readable? old_file
-        file = attachment.file.path
+        file = attachment.diskfile.path
 
         FileUtils.move file, old_file
         attachment.update_column :file, nil
@@ -101,7 +101,7 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
     def rolled_back_file_name(attachment)
       if attachment.disk_filename.blank?
         uuid = SecureRandom.hex 4
-        name = Pathname(attachment.file.path).basename
+        name = Pathname(attachment.diskfile.path).basename
         legacy_file_name "#{uuid}_#{name}"
       else
         legacy_file_name attachment.disk_filename
