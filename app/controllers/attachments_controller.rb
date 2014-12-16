@@ -70,10 +70,10 @@ class AttachmentsController < ApplicationController
   private
 
   def link_to_attachment(attachment)
-    url = attachment.file.download_url
+    url = URI.parse attachment.file.download_url
 
-    if url =~ /http/
-      url
+    if url.host # check if URL or file path
+      url.to_s
     else
       url_for controller: :attachments,
               action: 'download',

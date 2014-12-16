@@ -8,11 +8,7 @@ module FileUploader
   end
 
   def download_url
-    if file.is_path?
-      file.path
-    else
-      file.url
-    end
+    file.is_path? ? file.path : file.url
   end
 
   def cache_dir
