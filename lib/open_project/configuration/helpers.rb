@@ -55,6 +55,10 @@ module OpenProject
         (self['attachments_storage'] || 'file').to_sym
       end
 
+      def attachment_storage_path
+        self['attachments_storage_path'] || Rails.root.join('files').to_s
+      end
+
       def fog_credentials
         Hash[(Hash(self['fog'])['credentials'] || {}).map { |key, value| [key.to_sym, value] }]
       end
