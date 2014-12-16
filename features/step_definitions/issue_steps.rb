@@ -47,18 +47,19 @@ Given(/^the issue "(.*?)" has an attachment "(.*?)"$/) do |issue_subject, file_n
   attachment = FactoryGirl.create :attachment,
                                   author: issue.author,
                                   content_type: content_type,
-                                  filename: file_name,
-                                  disk_filename: "#{rand(10000000..99999999)}_#{file_name}",
+                                  # filename: file_name,
                                   digest: Digest::MD5.hexdigest(file_name),
                                   container: issue,
                                   filesize: rand(100..10000),
                                   description: 'This is an attachment description'
 
-  require 'tempfile'
+  tmp = Tempfile.new file_name
+  path = Pathname(tmp)
 
-  name = file_name.split(/\./)[0..-2].join('.')
-  ext = file_name.split(/\./).last
-  file = Tempfile.new [name, ".#{ext}"]
+  tmp.delete # delete temp file
+  path.mkdir # create temp directory
+
+  file = File.open path.join(file_name), 'w'
   file.write 'random content which is not actually a gif'
   file.close
 
