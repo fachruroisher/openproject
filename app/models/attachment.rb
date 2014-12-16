@@ -49,10 +49,6 @@ class Attachment < ActiveRecord::Base
                         { controller: '/attachments', action: 'download', id: o.id, filename: o.filename }
                       end)
 
-  cattr_accessor :storage_path
-  @@storage_path = OpenProject::Configuration['attachments_storage_path'] ||
-                   Rails.root.join('files').to_s
-
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
   def filesize_below_allowed_maximum
