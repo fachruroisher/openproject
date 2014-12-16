@@ -83,9 +83,11 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
         file = attachment.file.path
 
         FileUtils.move file, old_file
-        attachment.update_columns file: nil,
-                                  filename: Pathname(file).basename.to_s,
-                                  disk_filename: Pathname(old_file).basename.to_s
+        attachment.update_column :file, nil
+        attachment.update_column :filename, Pathname(file).basename.to_s
+        attachment.update_column :disk_filename, Pathname(old_file).basename.to_s
+
+        FileUtils.rmdir Pathname(file).dirname
       end
     end
 
@@ -102,7 +104,7 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
         name = Pathname(attachment.file.path).basename
         legacy_file_name "#{uuid}_#{name}"
       else
-        attachment.disk_filename
+        legacy_file_name attachment.disk_filename
       end
     end
 
