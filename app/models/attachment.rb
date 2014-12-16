@@ -139,7 +139,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def filename
-    file.file.filename
+    file.file.filename if file.file
   end
 
   def file=(file)
