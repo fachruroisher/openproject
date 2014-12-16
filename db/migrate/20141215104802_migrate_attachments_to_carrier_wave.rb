@@ -59,11 +59,18 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
         FileUtils.move file, new_file
         attachment.file = File.open(new_file)
         attachment.save!
-        attachment.update_column :filename, nil
+        attachment.update_column :filename, ''
 
-        File.readable? new_file
+        FileUtils.rm_f new_file
+
+        File.readable? attachment.file.path
       else
-        true # file has been migrated already
+        unless File.readable? attachment.file.path
+          Rails.logger.warn "Found corrupt attachment during migration: #{attachment.inspect}"
+          false
+        else
+          true # file has been migrated already
+        end
       end
     end
 
