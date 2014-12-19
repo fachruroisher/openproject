@@ -109,7 +109,7 @@ class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
     end
 
     def legacy_file_name(file_name)
-      Pathname(OpenProject::Configuration.attachment_storage_path).join file_name
+      Pathname(OpenProject::Configuration.attachments_storage_path).join file_name
     end
 
     ##

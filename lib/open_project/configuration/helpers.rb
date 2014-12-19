@@ -51,11 +51,11 @@ module OpenProject
       ##
       # Carrierwave storage type. Possible values are, among others, :file and :fog.
       # The latter requires further configuration.
-      def attachment_storage
+      def attachments_storage
         (self['attachments_storage'] || 'file').to_sym
       end
 
-      def attachment_storage_path
+      def attachments_storage_path
         self['attachments_storage_path'] || Rails.root.join('files').to_s
       end
 
@@ -68,7 +68,7 @@ module OpenProject
       end
 
       def file_uploader
-        available_file_uploaders[OpenProject::Configuration.attachment_storage]
+        available_file_uploaders[OpenProject::Configuration.attachments_storage]
       end
 
       def available_file_uploaders

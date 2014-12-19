@@ -1,6 +1,6 @@
 require 'carrierwave'
 
-if OpenProject::Configuration.attachment_storage == :fog
+if OpenProject::Configuration.attachments_storage == :fog
   require 'fog/aws/storage'
 
   CarrierWave.configure do |config|
