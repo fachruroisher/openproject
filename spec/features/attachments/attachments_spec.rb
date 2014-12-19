@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'attachments' do
+describe 'attachments', type: :feature do
   let(:project) { FactoryGirl.create :valid_project }
   let(:current_user) { FactoryGirl.create :admin }
   let!(:priority) { FactoryGirl.create :priority_normal }
@@ -40,7 +40,7 @@ feature 'attachments' do
   shared_examples 'upload', js: true do
     let(:file) { FactoryGirl.create :file, name: 'textfile.txt' }
 
-    scenario 'uploading a short text file and viewing it inline' do
+    it 'uploading a short text file and viewing it inline' do
       visit new_project_work_package_path(project)
 
       select project.types.first.name, from: "work_package_type_id"
