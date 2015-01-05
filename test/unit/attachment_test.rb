@@ -59,7 +59,7 @@ class AttachmentTest < ActiveSupport::TestCase
     a2 = Attachment.create!(:container => WorkPackage.find(1),
                             :file => uploaded_test_file("testfile.txt", ""),
                             :author => User.find(1))
-    assert a1.disk_filename != a2.disk_filename
+    assert a1.diskfile.path != a2.diskfile.path
   end
 
   context "Attachmnet#attach_files" do
