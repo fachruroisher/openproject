@@ -68,7 +68,7 @@ module OpenProject
       end
 
       def file_uploader
-        available_file_uploaders[OpenProject::Configuration.attachments_storage]
+        available_file_uploaders[OpenProject::Configuration.attachments_storage.to_sym]
       end
 
       def available_file_uploaders
