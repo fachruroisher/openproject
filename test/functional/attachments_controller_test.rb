@@ -42,7 +42,8 @@ class AttachmentsControllerTest < ActionController::TestCase
     @controller = AttachmentsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    Attachment.storage_path = Rails.root.join('test/fixtures/files').to_s
+
+    LocalFileUploader.any_instance.stubs(:store_dir).and_return('test/fixtures/files')
     User.current = nil
   end
 
