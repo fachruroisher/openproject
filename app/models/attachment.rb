@@ -146,6 +146,7 @@ class Attachment < ActiveRecord::Base
     super.tap do
       set_content_type file
       set_file_size file
+      set_digest file
     end
   end
 
@@ -155,6 +156,10 @@ class Attachment < ActiveRecord::Base
 
   def set_content_type(file)
     self.content_type = self.class.content_type_for(file.path) if content_type.blank?
+  end
+
+  def set_digest(file)
+    self.digest = Digest::MD5.file(file.path).hexdigest
   end
 
   def self.content_type_for(file_path, fallback = OpenProject::ContentTypeDetector::SENSIBLE_DEFAULT)
