@@ -124,10 +124,17 @@ class ActiveSupport::TestCase
   # Mock out a file
   def self.mock_file
     file = 'a_file.png'
+
+    tmp = Tempfile.new file
+    File.open(tmp, 'w') do |f|
+      f.write 'random content which is not actually a png'
+    end
+
     file.stub(:size).and_return(32)
     file.stub(:original_filename).and_return('a_file.png')
     file.stub(:content_type).and_return('image/png')
     file.stub(:read).and_return(false)
+    file.stub(:path).and_return(tmp.path)
     file
   end
 
